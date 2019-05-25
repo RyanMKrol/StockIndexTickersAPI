@@ -1,7 +1,7 @@
 {
   "author": "Ryan Krol",
-  "name": "baseProject",
-  "description": "Intended to be forked for each new Node project.",
+  "name": "StockIndexTickersApi",
+  "description": "An API to fetch the tickers currently in the FTSE 100/250/350/SmallCap",
   "version": "1.0.0",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,6 +9,8 @@
     "start": "npm run-script build && node lib/app.js"
   },
   "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "curl": "^0.1.4",
     "express": "^4.17.0"
   },
   "devDependencies": {
