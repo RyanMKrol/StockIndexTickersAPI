@@ -1,16 +1,20 @@
 import express from 'express'
-import * as scraperLib from './PageScraper'
+import * as dataSource from './DataSourceLib'
+
 const app = express()
 
 // initial permissions fetching
-app.get('/constituents/:index', function(req, res) {
+app.get('/constituents/:index', async function(req, res) {
   const index = req.params.index;
 
-  scraperLib.getNumberOfPages(index).then((result) => {
-    console.log(result)
-  })
+  try {
+    const tickers = await dataSource.fetchTickers(index)
+    res.send(tickers)
+  } catch (error) {
+    res.status(500).send(error)
+  }
 })
 
-app.listen(8000, () => {
-  console.log('Example app listening on port 8000!')
+app.listen(8001, () => {
+  console.log('Example app listening on port 8001!')
 })

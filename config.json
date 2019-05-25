@@ -2,6 +2,6 @@
   "ftse_100": "https://www.londonstockexchange.com/exchange/prices-and-markets/stocks/indices/summary/summary-indices-constituents.html?index=UKX",
   "ftse_250": "https://www.londonstockexchange.com/exchange/prices-and-markets/stocks/indices/summary/summary-indices-constituents.html?index=MCX",
   "ftse_350": "https://www.londonstockexchange.com/exchange/prices-and-markets/stocks/indices/summary/summary-indices-constituents.html?index=NMX",
-  "ftse_all_share": "https://www.londonstockexchange.com/exchange/prices-and-markets/stocks/indices/summary/summary-indices-constituents.html?index=ASX&page=28",
+  "ftse_all_share": "https://www.londonstockexchange.com/exchange/prices-and-markets/stocks/indices/summary/summary-indices-constituents.html?index=ASX",
   "ftse_small_cap": "https://www.londonstockexchange.com/exchange/prices-and-markets/stocks/indices/summary/summary-techmarkindices-constituents.html?index=SMX"
 }

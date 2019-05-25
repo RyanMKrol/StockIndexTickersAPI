@@ -9,6 +9,7 @@
     "start": "npm run-script build && node lib/app.js"
   },
   "dependencies": {
+    "array-range": "^1.0.1",
     "cheerio": "^1.0.0-rc.3",
     "curl": "^0.1.4",
     "express": "^4.17.0"
