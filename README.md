@@ -1,22 +1,13 @@
-# BaseNodeProject
-A project intended to be forked when starting new Node projects.
+# StockIndexTickersApi
+An API for fetching the tickers currently belonging to a given stock index.
 
 # Setup
- - Merge this code into a folder
-    - `git remote add NodeBase https://github.com/RyanMKrol/BaseNodeProject`
-    - `git remote update`
-    - `git merge NodeBase/master`
- - Run `npm install`
- - run `npm run start`, and a basic server should start running
- - Change the properties in the package.json:
-    - Author
-    - Name
-    - Description
-    - Scripts
- - Update your project's README, it will be a copy of this one!
-    
-# Dependencies
-- Node - v11.14.0
-- NPM - v6.4.1
-- Babel - v6.26.0
-- Babel preset - es2015
+ - Run 'npm install'
+ - Run 'npm run start'
+
+# Endpoints (links likely won't work, they just point to an EC2 host atm)
+ - .../constituents/ftse_100 - [link](http://ec2-3-17-134-210.us-east-2.compute.amazonaws.com:8001/constituents/ftse_100)
+ - .../constituents/ftse_250 - [link](http://ec2-3-17-134-210.us-east-2.compute.amazonaws.com:8001/constituents/ftse_250)
+ - .../constituents/ftse_350 - [link](http://ec2-3-17-134-210.us-east-2.compute.amazonaws.com:8001/constituents/ftse_350)
+ - .../constituents/ftse_all_share - [link](http://ec2-3-17-134-210.us-east-2.compute.amazonaws.com:8001/constituents/ftse_all_share)
+ - .../constituents/ftse_small_cap - [link](http://ec2-3-17-134-210.us-east-2.compute.amazonaws.com:8001/constituents/ftse_small_cap)
