@@ -1,24 +1,37 @@
+// app.js
 import express from 'express'
-import * as dataSource from './DataSourceLib'
+import path from 'path'
+import cookieParser from 'cookie-parser'
+import logger from 'morgan'
+import createError from 'http-errors'
+import cors from "cors"
+
+import exampleRouter from './routes/example'
 
 const app = express()
 
-app.get('/constituents/:index', async function(req, res) {
-  const index = req.params.index;
+app.use(cors())
+app.use(logger('dev'))
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
+app.use(cookieParser())
 
-  try {
-    const tickers = await dataSource.fetchTickers(index)
-    res.send(tickers)
-  } catch (error) {
-    res.status(500).send(error)
-  }
+app.use('/example/endpoint', exampleRouter)
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404))
 })
 
-app.get('/constituents', async function(req, res) {
-  const config = require(`${__dirname}/../config.json`)
-  res.send(Object.keys(config))
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message
+  res.locals.error = req.app.get('env') === 'development' ? err : {}
+
+  // render the error page
+  res.status(err.status || 500)
+  res.send('500 - Internal Server Error')
 })
 
-app.listen(8001, () => {
-  console.log('Example app listening on port 8001!')
-})
+export default app
