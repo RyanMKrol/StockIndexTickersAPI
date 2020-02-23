@@ -1,0 +1,1 @@
+export { fetchStockIndexes } from './stockIndexes'

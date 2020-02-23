@@ -6,7 +6,7 @@ import logger from 'morgan'
 import createError from 'http-errors'
 import cors from "cors"
 
-import constituentsRouter from './routes/constituents'
+import stockIndexesRouter from './routes/stockIndexes'
 import tickersRouter from './routes/tickers'
 
 const app = express()
@@ -17,7 +17,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 
-app.use('/api/constituents', constituentsRouter)
+app.use('/api/indexes', stockIndexesRouter)
 app.use('/api/tickers', tickersRouter)
 
 // catch 404 and forward to error handler
