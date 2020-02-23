@@ -1,5 +1,7 @@
+import indexData from './../../../config/indexes'
+
 function fetchStockIndexes() {
-  return "example index"
+  return Object.keys(indexData)
 }
 
 export { fetchStockIndexes }
