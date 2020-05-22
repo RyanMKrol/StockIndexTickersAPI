@@ -1,4 +1,4 @@
-# StockIndexTickersApi
+# StockIndexTickers-Api
 An API for fetching the tickers currently belonging to a given stock index.
 
 # Endpoints
