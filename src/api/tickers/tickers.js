@@ -4,8 +4,8 @@ import arrayRange from 'array-range'
 
 import indexData from './../../../config/indexes'
 
-const PAGINATION_SEPARATOR = " of "
-const PAGINATION_IDENTIFIER = '.paging'
+const PAGINATION_SEPARATOR = ' of '
+const PAGINATION_IDENTIFIER = '.page-last'
 
 function getNumberOfPages(stockIndex) {
   const url = indexData[stockIndex]
@@ -18,12 +18,19 @@ function getNumberOfPages(stockIndex) {
     curl.get(url, (err, response, body) => {
       try {
         const $ = cheerio.load(body)
-        const pages = $(PAGINATION_IDENTIFIER).first().find('p').first().text()
-        const numPages = parseInt(pages.split(PAGINATION_SEPARATOR).pop())
+        const numPages = new URL(
+          $(PAGINATION_IDENTIFIER).first().attr('href'),
+          'https://example.com'
+        ).searchParams.get('page')
 
-        resolve(numPages)
+        const intNumPages = parseInt(numPages)
+
+        resolve(intNumPages)
       } catch (err) {
-        reject(`Could not grab number of pages needed from page: ${url}, error: ${err}`)
+        console.log(err)
+        reject(
+          `Could not grab number of pages needed from page: ${url}, error: ${err}`
+        )
       }
     })
   })
@@ -41,17 +48,20 @@ async function fetchTickers(stockIndex) {
     return new Promise((resolve, reject) => {
       // fetch info from page
       curl.get(`${url}&page=${pageNumber}`, (err, response, body) => {
-
         // attempt to parse tickers
         try {
           const $ = cheerio.load(body)
-          const tickers = $('tbody tr').map((i,elem) => {
-            return $(elem).find('td').first().text()
-          }).get()
+          const tickers = $('tbody tr')
+            .map((i, elem) => {
+              return $(elem).find('a').eq(1).text()
+            })
+            .get()
 
           resolve(tickers)
         } catch (err) {
-          reject(`Could not grab number of pages needed from page: ${url}, error: ${err}`)
+          reject(
+            `Could not grab number of pages needed from page: ${url}, error: ${err}`
+          )
         }
       })
     })
@@ -63,7 +73,7 @@ async function fetchTickers(stockIndex) {
   // modify tickers to expected format
   const tickers = baseTickers
     .flat()
-    .map((ticker) => ticker.endsWith('.') ? `${ticker}L` : `${ticker}.L`)
+    .map((ticker) => (ticker.endsWith('.') ? `${ticker}L` : `${ticker}.L`))
 
   return tickers
 }
