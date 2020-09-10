@@ -46,10 +46,10 @@ async function fetchTickers(stockIndex) {
     throw new Error(`Could not find where to grab stock data for ${stockIndex}`)
   }
 
-  const tickerTasks = arrayRange(1, numPages).map(pageNumber => {
+  const tickerTasks = arrayRange(1, numPages + 1).map(pageNumber => {
     return new Promise((resolve, reject) => {
       // fetch info from page
-      curl.get(`${url}&page=${pageNumber}`, (err, response, body) => {
+      curl.get(`${url}?page=${pageNumber}`, (err, response, body) => {
         // attempt to parse tickers
         try {
           const $ = cheerio.load(body)
@@ -57,7 +57,7 @@ async function fetchTickers(stockIndex) {
             .map((i, elem) => {
               return $(elem)
                 .find('a')
-                .eq(1)
+                .eq(0)
                 .text()
             })
             .get()
