@@ -1,11 +1,16 @@
 import cheerio from 'cheerio'
 import curl from 'curl'
 import arrayRange from 'array-range'
+import Cache from 'noodle-cache'
 
 import indexData from './../../../config/indexes'
 
 const PAGINATION_SEPARATOR = ' of '
 const PAGINATION_IDENTIFIER = '.page-last'
+
+// caching responses for one week
+const cacheTtlSeconds = 60 * 60 * 24 * 7
+const CACHE = new Cache(cacheTtlSeconds)
 
 function getNumberOfPages(stockIndex) {
   const url = indexData[stockIndex]
@@ -38,8 +43,9 @@ function getNumberOfPages(stockIndex) {
   })
 }
 
-async function fetchTickers(stockIndex) {
+async function getRawTickersForAllPages(stockIndex) {
   const url = indexData[stockIndex]
+
   const numPages = await getNumberOfPages(stockIndex)
 
   if (!url) {
@@ -73,13 +79,22 @@ async function fetchTickers(stockIndex) {
   })
 
   // wait for all tasks to finish
-  const baseTickers = await Promise.all(tickerTasks)
+  return Promise.all(tickerTasks)
+}
+
+async function fetchTickers(stockIndex) {
+  const getRawTickersDataWrapper = () => getRawTickersForAllPages(stockIndex)
+  const baseTickers = await CACHE.processItem(
+    `ticker-data-${stockIndex}`,
+    getRawTickersDataWrapper
+  )
 
   // modify tickers to expected format
   const tickers = baseTickers
     .flat()
     .map(ticker => (ticker.endsWith('.') ? `${ticker}L` : `${ticker}.L`))
 
+  console.log(tickers.length)
   return tickers
 }
 
