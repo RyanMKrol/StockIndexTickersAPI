@@ -19,7 +19,9 @@ function getNumberOfPages(stockIndex) {
       try {
         const $ = cheerio.load(body)
         const numPages = new URL(
-          $(PAGINATION_IDENTIFIER).first().attr('href'),
+          $(PAGINATION_IDENTIFIER)
+            .first()
+            .attr('href'),
           'https://example.com'
         ).searchParams.get('page')
 
@@ -44,7 +46,7 @@ async function fetchTickers(stockIndex) {
     throw new Error(`Could not find where to grab stock data for ${stockIndex}`)
   }
 
-  const tickerTasks = arrayRange(1, numPages).map((pageNumber) => {
+  const tickerTasks = arrayRange(1, numPages).map(pageNumber => {
     return new Promise((resolve, reject) => {
       // fetch info from page
       curl.get(`${url}&page=${pageNumber}`, (err, response, body) => {
@@ -53,7 +55,10 @@ async function fetchTickers(stockIndex) {
           const $ = cheerio.load(body)
           const tickers = $('tbody tr')
             .map((i, elem) => {
-              return $(elem).find('a').eq(1).text()
+              return $(elem)
+                .find('a')
+                .eq(1)
+                .text()
             })
             .get()
 
@@ -73,7 +78,7 @@ async function fetchTickers(stockIndex) {
   // modify tickers to expected format
   const tickers = baseTickers
     .flat()
-    .map((ticker) => (ticker.endsWith('.') ? `${ticker}L` : `${ticker}.L`))
+    .map(ticker => (ticker.endsWith('.') ? `${ticker}L` : `${ticker}.L`))
 
   return tickers
 }
