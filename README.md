@@ -1,3 +1,7 @@
+> **Note: This repo is now deprecated. All functionality has been migrated to [StockAPI](https://github.com/RyanMKrol/StockAPI)**
+
+---
+
 # StockIndexTickers-Api
 An API for fetching the tickers currently belonging to a given stock index.
 
